@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>冒泡排序</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var carray=function(){
+			this.dataStore=[10,3,4,6,8,9,2,5,7];
+			this.swap=swap;
+			this.bubble=bubble;
+		}
+		//交换数据
+		function swap(arr,index1,index2){
+			var temp=arr[index1];
+			arr[index1]=arr[index2];
+			arr[index2]=temp;
+		}
+		function bubble(){
+			var data=this.dataStore;
+			var num=data.length;
+			for(var out=num;out>=2;--out){
+				for(var inner=0;inner<out-1;inner++){
+					if(data[inner]>data[inner+1]){
+						this.swap(data,inner,inner+1);
+					}
+				}
+			}
+		}
+		var array=new carray();
+		array.bubble(array);
+		console.log(array.dataStore);
+	</script>
+</body>
+</html>

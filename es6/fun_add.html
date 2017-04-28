@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数新增</title>
+</head>
+<body>
+	<script type="text/javascript">
+		//扩展运算符（spread）是三个点（...）的应用
+		function push(array, ...items) {
+		  array.push(...items);
+		}
+
+		function add(x, y) {
+		  return x + y;
+		}
+
+		var numbers = [4, 38];
+		console.log(add(...numbers));//42
+		//替换数组的apply()方法
+		function f(x, y, z) {
+		  return x+y+z;
+		}
+		var args = [0, 1, 2];
+		var p= new f(...args);
+		console.log(p);
+		//
+		console.log(Math.max(...[14, 3, 77]));//77
+		//通过push函数，将一个数组添加到另一个数组的尾部
+		//// ES5的写法
+		var arr1 = [0, 1, 2];
+		var arr2 = [3, 4, 5];
+		Array.prototype.push.apply(arr1, arr2);
+		// ES6的写法
+		var arr1 = [0, 1, 2];
+		var arr2 = [3, 4, 5];
+		arr1.push(...arr2);
+		// ES5
+		new (Date.bind.apply(Date, [null, 2015, 1, 1]))
+		// ES6
+		new Date(...[2015, 1, 1]);
+		//数组合并
+		var arr1 = ['a', 'b'];
+		var arr2 = ['c'];
+		var arr3 = ['d', 'e'];
+		[...arr1, ...arr2, ...arr3];//["a", "b", "c", "d", "e"]
+		//解构赋值
+		const [first, ...rest] = [1, 2, 3, 4, 5];
+		console.log(rest);//[2,3,4,5]
+		const [first, ...rest] = [];
+		first // undefined
+		rest  // []:
+
+		const [first, ...rest] = ["foo"];
+		first  // "foo"
+		rest   // []
+		//将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。
+		//函数的返回值
+		var dateFields = readDateFields(database);
+		var d = new Date(...dateFields);
+		//字符串转为真正的数组
+		[...'hello']
+		// [ "h", "e", "l", "l", "o" ]
+		//实现了Iterator接口的对象
+		var nodeList = document.querySelectorAll('div');
+		var array = [...nodeList];
+		//Map和Set结构，Generator函数
+		let map = new Map([
+		  [1, 'one'],
+		  [2, 'two'],
+		  [3, 'three'],
+		]);
+
+		let arr = [...map.keys()]; // [1, 2, 3]
+		var go = function*(){
+		  yield 1;
+		  yield 2;
+		  yield 3;
+		};
+		[...go()] // [1, 2, 3]变量go是一个Generator函数，执行后返回的是一个遍历器对象，对这个遍历器对象执行扩展运算符，就会将内部遍历得到的值，转为一个数组
+		//name 属性
+		function foo() {}
+		foo.name // "foo" 
+		var f = function () {};
+		f.name // "f"
+		const bar = function baz() {};
+		// ES5
+		bar.name // "baz"
+
+		// ES6
+		bar.name // "baz"
+		(new Function).name // "anonymous"Function构造函数返回的函数实例，name属性的值为anonymous。
+		function foo() {};
+		foo.bind({}).name // "bound foo"bind返回的函数，name属性值会加上bound前缀。
+
+		(function(){}).bind({}).name // "bound "
+
+		//箭头函数
+		var f = v => v;
+		//等同于
+		var f=fucntion(v){
+			return v;
+		}
+		var getTempItem = id => ({ id: id, name: "Temp" });//由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号
+		//箭头函数可以与变量解构结合使用。
+		const full = ({ first, last }) => first + ' ' + last;
+		////等同于
+		function full(person){
+			return person.first+ ' ' + person.last;
+		}
+		//箭头函数使得表达更加简洁
+		// 正常函数写法
+		[1,2,3].map(function (x) {
+		  return x * x;
+		});
+
+		// 箭头函数写法
+		[1,2,3].map(x => x * x);
+		// 正常函数写法
+		var result = values.sort(function (a, b) {
+		  return a - b;
+		});
+
+		// 箭头函数写法
+		var result = values.sort((a, b) => a - b);
+		//下面是rest参数与箭头函数结合的例子。
+		const numbers = (...nums) => nums;
+		numbers(1, 2, 3, 4, 5)
+		// [1,2,3,4,5]
+
+		const headAndTail = (head, ...tail) => [head, tail];
+
+		headAndTail(1, 2, 3, 4, 5)
+		// [1,[2,3,4,5]]
+/**使用注意点
+箭头函数有几个使用注意点。
+
+（1）函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+
+（2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+
+（3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+
+（4）不可以使用yield命令，因此箭头函数不能用作Generator函数。
+*/
+		//尾调用优化,即只保留内层函数的调用帧,尾调用就是指某个函数的最后一步是调用另一个函数
+		function f(x){
+		  return g(x);
+		}
+		//以下三种情况，都不属于尾调用。
+		// 情况一
+		function f(x){
+		  let y = g(x);
+		  return y;
+		}
+
+		// 情况二
+		function f(x){
+		  return g(x) + 1;
+		}
+
+		// 情况三
+		function f(x){
+		  g(x);
+		}
+		//尾调用不一定出现在函数尾部，只要是最后一步操作即可
+		function f(x) {
+		  if (x > 0) {
+		    return m(x)
+		  }
+		  return n(x);
+		}
+		//函数调用自身，称为递归。如果尾调用自身，就称为尾递归
+		function factorial(n) {
+		  if (n === 1) return 1;
+		  return n * factorial(n - 1);
+		}
+		factorial(5) // 120
+		//如果改写成尾递归，只保留一个调用记录，复杂度 O(1) 。
+		function factorial(n, total) {
+		  if (n === 1) return total;
+		  return factorial(n - 1, n * total);
+		}
+
+		factorial(5, 1);//120
+		//递归函数的改写:尾递归的实现，往往需要改写递归函数，确保最后一步只调用自身。做到这一点的方法，就是把所有用到的内部变量改写成函数的参数。比如上面的例子，阶乘函数 factorial 需要用到一个中间变量 total ，那就把这个中间变量改写成函数的参数。这样做的缺点就是不太直观，第一眼很难看出来，为什么计算5的阶乘，需要传入两个参数5和1?两个方法可以解决这个问题。方法一是在尾递归函数之外，再提供一个正常形式的函数。
+		function tailFactorial(n, total) {
+		  if (n === 1) return total;
+		  return tailFactorial(n - 1, n * total);
+		}
+
+		function factorial(n) {
+		  return tailFactorial(n, 1);
+		}
+
+		factorial(5) // 120
+		//函数式编程有一个概念，叫做柯里化（currying），意思是将多参数的函数转换成单参数的形式。这里也可以使用柯里化
+		function currying(fn, n) {
+		  return function (m) {
+		    return fn.call(this, m, n);
+		  };
+		}
+		function tailFactorial(n, total) {
+		  if (n === 1) return total;
+		  return tailFactorial(n - 1, n * total);
+		}
+		const factorial = currying(tailFactorial, 1);
+		factorial(5) // 120
+		//es6的函数默认值
+		//function factorial(n, total = 1) {
+		  if (n === 1) return total;
+		  return factorial(n - 1, n * total);
+		}
+		factorial(5);//120
+		//ES6的尾调用优化只在严格模式下开启，正常模式是无效的。函数内部有两个变量，可以跟踪函数的调用栈。func.arguments：返回调用时函数的参数。func.caller：返回调用当前函数的那个函数。尾调用优化发生时，函数的调用栈会改写，因此上面两个变量就会失真。严格模式禁用这两个变量，所以尾调用模式仅在严格模式下生效。
+	</script>
+</body>
+</html>

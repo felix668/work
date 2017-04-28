@@ -1,0 +1,105 @@
+sass底层布局
+common.css
+复用性强
+依赖ruby，先下载ruby，windows需要修改环境变量
+管理员权限 gem install sass由于国内网络原因，需要翻墙或者使用
+淘宝镜像
+gem sources --remove https
+gem sources -a https
+gem sources -l
+gem insatll sass
+
+应用
+index.scss
+变量
+$fontStack:    Helvetica, sans-serif;
+$primaryColor: #333;
+
+body {
+  font-family: $fontStack;
+  color: $primaryColor;
+}
+编译sass为css
+sass index.scss index.css
+嵌套
+//sass style
+//-----------------------------------
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li { display: inline-block; }
+
+  a {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+  }
+}
+倒入
+@import 'reset'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

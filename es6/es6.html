@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>es6</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+
+	//一、let and const
+    //let块级作用于
+		// function test(){
+		// 	let a=5;
+		// }
+		// console.log(a);//a is not defined
+		// if(false){
+		// 	var a=5;
+		// }
+		// console.log(a);//undefined
+		// for(let i=0;i<10;i++){
+		// 	console.log(i);
+		// }
+		// console.log(i);//访问不到i，变量不会在提前定义
+	//aaa使用let声明，在声明前都属于aaaa的死区，只要用到就会报错。如果一个变量没被声明，使用typeof反而不会报错
+		// typeof aaa;
+		// let aaa;
+	//不允许同一作用域声明同一变量,因此不能在函数内重新声明参数
+		// let a;
+		// let a;
+		// function test(arg){
+		// 		let arg;
+		// }
+	//const定义常量，一旦被声明，后面就不能在声明，可以防止被改写
+	    // const A=20;
+	    // Af=30;
+	    // console.log(A);//Assignment to constant variable，分配到恒定的变量
+	//es5只有全局作用域和函数作用域，造成不合理的场景，1、函数作用域的变量提升，内层变量覆盖外层变量；2、用来计算的循环变量泄露为全局变量
+		// var a=2;
+		// function test(){
+		// 	console.log(a);//undeifined
+		// 	var a=5;
+		// }
+		// for(var i=0;i<5;i++){
+		// 	console.log(i);
+		// }
+		// console.log(i);//5
+		// 二、字符串
+		// 静态字符串一律使用单引号或反引号，动态字符串使用反引号
+		const a = 'foobar';
+		const b = `foo${a}bar`;
+		console.log(b);//foofoobarbar
+		// 三、解构赋值
+		// 解构赋值
+		// const arr=[1,2,3,4];
+		// const [first,second]=arr;
+		// function getFullname({fistName,lastName}){}//如果函数返回多个值，优先使用对象的解构赋值，而不是数组的解构赋值，以便于以后添加返回值
+		// 四、对象
+		// 对象尽量静态化，使用object.assign方法,对象属性名动态使用属性表达式
+		// const a={ x: null }
+		// a.x=3;
+		// console.log(a);Object{x:3}
+		// const obj={
+		// 	id:5,
+		// 	[getkey('enabled')]:true,
+		// }
+		// 对象的属性和方法，尽量采用简洁表达式，易于描述和书写
+		// const atom={
+			// ref,
+			// value:1,
+			// addvalue(value){
+			// return atom.value+value;
+			// }
+		// }
+		// 五、数组扩展(...)，用于拷贝数组，
+		// const bb=[...aa];
+		// function test(age,...data){
+		// 	console.log(data);//所有剩下的值
+		// }
+		// test(25,'laowang','lanqiu');//'laowang','lanqiu'
+		// Array.from 将类似数组的对象转化为数组
+		// const foo=document.querySelectAll(".foo");
+		// const nodes=Array.from(foo);
+		// 六、函数,箭头函数取代funciton.prototype.bind,而不在应用self/_this/that绑定this
+		// 简单的、单行的、不会复用的函数，建议采用箭头函数。如果函数体较为复杂，行数较多，还是应该采用传统的函数写法。
+		// 
+		// (()=>{
+		// 	console.log('welcome to the room');
+		// })();
+		// const [1,2,3].map(x=>x*x);//[1,4,9]
+		// const boundMethod=(...params)=>method.apply(this,params);
+		// 所有配置项都应该集中在一个对象，放在最后一个参数，布尔值不可以直接作为参数。
+		// function divide(a,b,{ option =false }={}){console.log(option)}//最后参数可传可不传divide('wang',35,{option=true});
+		// 不要在函数体内使用arguments变量，使用rest运算符（...）代替。因为rest运算符显式表明你想要获取参数，而且arguments是一个类似数组的对象，而rest运算符可以提供一个真正的数组。
+		// function concatenateAll(...args){
+		// 	return args.join('');}
+		// 	使用默认值语法设置函数参数的默认值。
+		// 	function handleThings(opts={}){console.log(opts)}
+		// 	handleThings('123');
+		// 七、map 只有模拟现实世界的实体对象时才使用Object,如果只是需要key:value的数据结构使用map结构，因Map有内建的遍历机制
+			// let arr=[['name','zhangshang'],['title','本书作者']]
+			// let map=new Map(arr);
+			// map.set('fv','篮球');
+			// console.log(map);
+			// for (let key of map.keys()){//循环所有的键
+			// 	console.log(key);//name title fv
+			// }
+			// for(let value of map.values()){//循环所有值
+			// 	console.log(value);//zhangshang 
+			// }
+			// for(let item of map.entries()){//键值对对应的机制
+			// 	console.log(item[0],item[1]);//name zhangshang....
+			// 	console.log(`键=>${item[0]}值=>[${item[1]}]`);
+			// }
+		// 八 class 
+			// class Queue {
+			//   constructor(contents = []) {
+			//     this._queue = [...contents];
+			//   }
+			//   pop() {
+			//     const value = this._queue[0];
+			//     this._queue.splice(0, 1);
+			//     return value;
+			//   }
+			// }
+			// class PeekableQueue extends Queue{
+			// 	peek(){//新增方法
+			// 		return this._queue[1];
+			// 	}
+			// 	pop(){//重写pop
+			// 		return this._queue[2];
+			// 	}
+			// }
+			// let f=new PeekableQueue(['123','456','789']);
+			//console.log(f.pop());//123
+			//console.log(f.peek());//456
+			//console.log(f.pop());//789
+		// 九、模块Module语法是javascript模块的标准写法，使用import取代require
+		   // import myObject from './MakeStyleGuide';
+		   // console.log(myObject);
+		// 十、Generator 函数Generator函数是一个普通函数，但是有两个特征。一是，function关键字与函数名之间有一个星号；二是，函数体内部使用yield语句，定义不同的内部状态（yield语句在英语里的意思就是“产出”）。
+			// function* helloWorldGenerator() {
+			//   yield $.ajax({
+
+			//   });//让异步事件变成同步事件
+			//   yield 'world';
+			//   return 'ending';
+			// }
+
+			// var hw = helloWorldGenerator();
+			// console.log(hw.next());//Object{value:"hello".done:false}
+			// console.log(hw.next());//Object{value:"world".done:false}
+			// console.log(hw.next());//Object{value:"ending".done:true}
+		// 11、Promise对象
+		// var promise = new Promise(function(resolve, reject) {
+		//   // ... some code
+
+		//   if (/* 异步操作成功 */){
+		//     resolve(value);
+		//   } else {
+		//     reject(error);
+		//   }
+		// });
+		// 12.eslint
+		 //let s=Symbol();//Symbol函数前不能使用new命令，否则会报错
+		 //console.log(typeof s);//symbol
+		 //console.log(s);//Symbol();
+		 //如果 Symbol 的参数是一个对象，就会调用该对象的toString方法，将其转为字符串，然后才生成一个 Symbol 值
+		 // const obj={
+		 // 	toString(){
+		 // 		return 'abc';
+		 // 	}
+		 // };
+		 // const sym= Symbol(obj);
+		 // console.log(sym);//Symbol(abc)
+		 // Symbol函数的参数只表示对当前Symbol值的描述，相同参数的Symbol函数的返回值是不相等的
+		 // let s1=Symbol('foo');
+		 // let s2=Symbol('foo');
+		 // s1==s2;//false
+		 //console.log(2**3);//2*2*2
+		 //console.log([1, 2, 3, 4, 5].copyWithin(0, 3)
+		 //从1-62个数里取十个不重复的数字
+		 //方法一、splice向/从数组中添加或删除项目，返回被删除的项目
+		 const cards=Array(62).fill().map((_,i)=>i+1);
+		 function draw(n=1){
+		 	var ret=[];
+		 	for(let i=0;i<n;i++){
+		 		let idx=Math.floor(cards.length*Math.random());
+		 		ret.push(...cards.splice(idx,1));
+		 	}
+		 	return ret;
+		 }
+		 console.log(draw(10));//取10次splice10次
+		 //先洗牌，然后取出十个数字。slice从已有的数组中返回选定的元素
+		 function draw2(amount,n=1){
+		 	const cards=Array(62).fill().map((_,i)=>i+1);
+		 	for(let i=amount-1;i>=0;i--){
+		 		let rand=Math.floor((i+1)*Math.random());
+		 		[cards[rand],cards[i]]=[cards[i],cards[rand]];
+		 	}
+		 	return cards.slice(0,n);
+		 }
+		 console.log(draw2(62,10));
+		 //不需要洗所有牌
+		 function draw3(amount,n=1){
+		 	const cards=Array(62).fill().map((_,i)=>i+1);
+		 	for(let i=amount-1,stop=amount-n-1;i>stop;i++){
+		 		let rand=Math.floor((i+1)*Math.random());
+		 		[cards[rand],cards[i]]=[cards[i],cards[rand]];
+		 	}
+		 	return cards.slice(-n);
+		 }
+		 console.log(draw2(62,10));
+		 //构造器负责初试化
+		 function Box(amount){
+		 	this.cards=Array(amount).fill().map((_,i)=>i+1);
+		 }
+		 Box.prototype.draw4=function(n=1){
+		 	let amount=this.cards.length,cards=this.cards;
+		 	for(let i=amount-1,stop=amount-n-1;i>stop;i--){
+		 		let rand=Math.floor((i+1)*Math.random());
+		 		[cards[rand],cards[i]]=[cards[i],cards[rand]];
+		 	}
+		 	let ret=cards.slice(-n);
+		 	cards.length=amount-n;
+		 	return ret;
+		 }
+		 var box=new Box(62);
+		 console.log(box.draw4(5),box.draw4(5));//一次取5个，取2次
+		 console.log(box.draw4(10));
+		 //es6的Generators适合一次抽取任意多的场景
+		 function * draw5(amount){
+		 	const cards=Array(62).fill().map((_,i)=>i+1);
+		 	for(let i=amount-1;i>=0;i--){
+		 		let rand=Math.floor((i+1)*Math.random());
+		 		[cards[rand],cards[i]]=[cards[i],cards[rand]];
+		 		yield cards[i];
+		 	}
+		 }
+		 var drs=draw5(62);
+		 console.log(Array(10).fill().map(()=>drs.next().value));
+		 	
+</script>

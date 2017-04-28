@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+       // function test(num){
+       //        //这里对num创建了一个内存的副本，常见的按值引用有string\number\boolean
+       // 	var num=num+1;
+       // 	return num;
+       // }
+       // var num=1;
+       // console.log(test(num));
+       // console.log(num);
+       function test(obj){
+         obj.age="20";//当前obj对内存的这个地址指向同一个，常见的按引用传递有object\arrary
+         console.log("inside", obj);
+       }
+       var obj={name:"xiaoming"};
+       console.log(test(obj));
+       console.log("outside",obj);
+	</script>
+</body>
+</html>

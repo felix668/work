@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选择排序</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var carray=function(){
+			this.dataStore=[10,3,4,6,8,9,2,5,7];
+			this.swap=swap;
+			this.select=select;
+		}
+		//交换数据
+		function swap(arr,index1,index2){
+			var temp=arr[index1];
+			arr[index1]=arr[index2];
+			arr[index2]=temp;
+		}
+		function select(){
+			var data=this.dataStore;
+			var min;
+			for(var out=0;out<data.length-2;++out){
+				min=out;
+				for(var inner=out+1;inner<=data.length-1;++inner){
+					if(data[inner]<data[min]){
+						this.swap(data,inner,min);
+					}
+				}
+			}
+		}
+		var array=new carray();
+		array.select(array);
+		console.log(array.dataStore);
+	</script>
+</body>
+</html>

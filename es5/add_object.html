@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增对象</title>
+</head>
+<body>
+	<input type="button" id="text" value="测试" />
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript">
+	'use strict';
+	//JSON对象
+	//json全局对象，用来序列化(JSON.stringify)和反序列化(JSON.parse)对象为JSON格式
+	//var result = JSON.parse('{"a": 1, "b": 2}');
+	//console.log(result);//Object {a: 1, b: 2}
+	//JSON.parse接受文本(JSON格式)并转换成一个ECMAScript值。该可选的reviver参数是有带有key和value两个参数的函数，其作用于结果——让过滤和转换返回值成为可能
+	////如果我们想确保解析的值是个整数，我们可以使用reviver方法。
+	var result=JSON.parse('{"a":1,"b":"2"}',function(key,value){
+		if(typeof value=="string"){
+			return parseInt(value);
+		}else{
+			return value;
+		}
+	})
+	console.log(result);//Object {a: 1, b: 2}
+	//二、JSON.stringify(value [, replacer [, space]])
+	//JSON.stringify允许作者接受一个ECMAScript值然后转换成JSON格式的字符串。 在其最简单的形式中，JSON.stringify接受一个值返回一个字符串
+	var mike=JSON.stringify({mike:'taylor'});
+	console.log(mike);//{"mike":"taylor"}
+	console.log(typeof(mike));//string
+	//如果我们需要改变值字符串化的方式，或是对我们选择的提供过滤，我们可以将其传给replacer函数。例如，我们想过滤出即将被字符串化的对象中值为13的属性：
+	var nums={
+		'first':7,
+		'second':14,
+		'third':13
+	}
+	var luckyNums = JSON.stringify(nums, function(key, value){
+		if(value==13){
+			return undefined;
+		}else{
+			return value;
+		}
+	})
+	console.log(luckyNums);//{"first":7,"second":14}
+	//space参数可以是个数字，表明了作缩进的JSON字符串或字符串每个水平上缩进的空格数。如果参数是个超过10的数值，或是超过10个字符的字符串，将导致取数值10或是截取前10个字符
+	var luckyNums2 = JSON.stringify(nums, function(key, value){
+		if(value==13){
+			return undefined;
+		}else{
+			return value;
+		}
+	},2)
+	console.log(luckyNums2);//
+	// {
+	//   "first": 7,
+	//   "second": 14
+	// }
+	// 添加在Object上的构造器
+	// Object.getPrototypeOf
+	// Object.getOwnPropertyDescriptor,这个方法用于获取defineProperty方法设置的property 特性
+	// Object.getOwnPropertyNames,获取所有的属性名，不包括prototy中的属性，返回一个数组
+	// Object.create
+	// Object.defineProperty,方法同时定义多个property，
+	// Object.defineProperties
+	// Object.seal,方法用于把对象密封，也就是让对象既不可以拓展也不可以删除属性（把每个属性的configurable设为false）,单数属性值仍然可以修改
+	// Object.freeze,完全冻结对象，在seal的基础上，属性值也不可以修改（每个属性的wirtable也被设为false）
+	// Object.preventExtensions,方法用于锁住对象属性，使其不能够拓展，也就是不能增加新的属性，但是属性的值仍然可以更改，也可以把属性删除
+	// Object.isSealed,判断对象是否被密封
+	// Object.isFrozen,用于判断对象是否可以被冻结
+	// Object.isExtensible,用于判断对象是否可以被拓展
+	// Object.keys,和getOwnPropertyNames方法类似，但是获取所有的可枚举的属性，返回一个数组
+	//这些新增的好处之一是对象的属性有了更多控制，例如哪些是允许被修改的，哪些是可以枚举的，哪些是可以删除的等。这个的实现通过程序访问对象的属性描述符(property descriptors). 例如：
+	var cat={};
+	Object.defineProperty(cat,'name',{
+		value:'maru',
+		writable:false,
+		enumerable:true,
+		configurable:false
+	});
+	Object.defineProperty(cat,'skill',{
+		value:'exploring boxes',
+		writable:true,
+		enumerable:true,
+		configurable:false
+	});
+	//Function.prototype.bind返回一个新的函数对象，该函数对象的this绑定到了thisArg参数上。从本质上讲，这允许你在其他对象链中执行一个函数
+	function locate(){
+		console.log(this.location);
+	}
+	function Mrue(location){
+		this.location=location;//这里的this指向window对象
+	}
+	var kitty=new Mrue("cardboard box");
+	var locateMaru=locate.bind(kitty);//将this关键字指向kitty的this值创建一个新方法locateMaru
+	locateMaru();//cardboard box
+	//bind()扩展方法，
+	// var button = document.getElementById("button"),
+	//     text = document.getElementById("text");
+	// button.onclick = function() {
+	//     alert(this.id); // 弹出text
+	// }.bind(text);
+	var OOO = {
+	    color: "#ff0000",
+	    element: $("#text"),
+	    events: function() {
+	        $("input[type='button']").addEventListener("click", function(e) {
+	            //this.element.style.color = this.color;
+	            console.log(this.color);
+	        }.bind(this));
+	        return this;
+	    },
+	    init: function() {
+	        this.events();
+	    }
+	};
+
+	// var eleBtn = document.getElementById("button")
+	//     , eleText = document.getElementById("text");
+	    
+	// eleBtn.onclick = function(color) {
+	//     color = color || "#003399";
+	//     this.style.color = color;
+	// }.bind(eleText, "#cd0000");
+//通过对Function的prototype原型进行扩展，可以为IE6~8自定义bind方法
+      if(!function(){}.bind){
+      	Function.prototype.bind=function(context){
+      		var self=this;
+      		var args=Array.prototype.slice.call(arguments);
+      		return function(){
+      			return self.apply(context,args.slice(1));
+      		}
+      	}
+      }
+//Object.create这个方法用于创建一个对象，并把其prototype属性赋值为第一个参数
+ // var account=Object.create(Object.prototype,{
+ // 	type:{
+ // 		value:'建设银行',
+ // 		enumerable: true,
+ //       configurable: true,
+ //       writable: true
+ // 	}
+ // })
+ // // console.log(account.type);//建设银行
+ // // account.type="人民银行";
+ // // console.log(account.type);//建设银行,writable属性惹得货，如果我们将属性设置为true,结果人民银行
+ // // delete account.type;
+ // // console.log(account.type);//建设银行,次是configurable属性的问题，如果我们将它设置为true,结果undefined
+ // //遍历account对象
+ // for(var i in account){
+ // 	console.log(account[i]);//建设银行,enumerable属性值惹得祸,enumerable属性设置为true
+ // }
+ // GET和SET的用法
+ var number;
+ var account = Object.create(Object.prototype,{
+            type: {
+               value: "建设银行",//值，默认是undefined
+               enumerable: true,//是否可以被枚举(for in)，默认false
+               configurable: false, //是否可以被删除，默认false 不能被删除
+               writable: false //是否是只读property，默认是false,有点像C#中的const 不能被修改
+           },
+           number: {
+               get: function(){
+                   if((typeof number) === "undefined"){
+                       //说明没有设置number
+                       return "您还没有开通账户!请联系前台!";
+                   }
+                   return "您的账户号码是："+number;
+               },
+               set: function(num){
+                   number = num;//严格模式下报 Uncaught ReferenceError: number is not defined
+                   if(this.cTime === 0){
+                       console.log("账户开通成功！");
+                       this.cTime++;
+                   }else{
+                       console.log("账户号码已经被修改！");
+                   }
+               //如果只有getter而尝试去写、只有setter尝试去读的话，严格模式下会抛出异常，所以正确地使用setter和getter才能写出高质量的代码
+           },
+           cTime: {
+               value: 0,
+               writable: true
+           }
+       }
+ });
+ console.log(account);//Object {type: "建设银行", cTime: 0}
+console.log(account.type);//建设银行
+console.log(account.number);//您还没有开通账户!请联系前台!
+account.number='610XXXXXXXXXX21';//账户开通成功！
+console.log(account);//您的账户号码是：610XXXXXXXXXX21
+account.number = "610XXXXXXXXXX88";//账户号码已经被修改！
+console.log(account.numbe);//610XXXXXXXXXX88
+//在使用set,get函数的时候，不能和value属性和writable属性一起用，会报错
+//
+
+//可以使用defineProperties方法同时定义多个property，
+Object.defineProperties(account, {
+            'age': {
+                value: 24,
+                writable: true,
+                enumerable: true,
+                configurable: true
+            },
+            'sex': {
+                value: 'male',
+                writable: false,
+                enumerable: false,
+                configurable: false
+            }
+        });
+console.log(account);//Object {type: "建设银行", age: 24, cTime: 1, sex: "male"}
+//
+//Object.getOwnPropertyDescriptor(O,property)这个方法用于获取defineProperty方法设置的property 特性
+		var props = Object.getOwnPropertyDescriptor(account, 'age');
+        console.log(props);//Object {value: 24, writable: true, enumerable: true, configurable: true}
+
+        //Object.getOwnPropertyNames获取所有的属性名，不包括prototy中的属性，返回一个数组
+        console.log(Object.getOwnPropertyNames(account));//["type", "number", "cTime", "age", "sex"]
+
+        //Object.keys()和getOwnPropertyNames方法类似，但是获取所有的可枚举的属性，返回一个数组
+        console.log(Object.keys(account));//["type", "age"],enumerable: true,可枚举的属性
+        //
+        //Object.preventExtensions(O) / Object.isExtensible方法用于锁住对象属性，使其不能够拓展，也就是不能增加新的属性，但是属性的值仍然可以更改，也可以把属性删除，Object.isExtensible用于判断对象是否可以被拓展
+        console.log(Object.isExtensible(account));//true
+        account.lastName = 'Sun'; console.log(account.lastName); //Sun ,此时对象可以拓展
+        Object.preventExtensions(account);console.log(Object.isExtensible(account));//false
+        account.lastName = "ByronSun";console.log(account.lastName); //ByronSun，属性值仍然可以修改
+        delete account.lastName;console.log(account.lastName);//undefined仍可删除属性
+        account.firstname = 'Byron';//Can't add property firstname
+
+        //Object.seal(O) / Object.isSealed方法用于把对象密封，也就是让对象既不可以拓展也不可以删除属性（把每个属性的configurable设为false）,单数属性值仍然可以修改，Object.isSealed由于判断对象是否被密封
+        Object.seal(account);account.age=25;console.log(account.age);//25
+        delete account.age;console.log(account.age);//25
+	</script>
+</body>
+</html>

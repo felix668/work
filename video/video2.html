@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<title>视频直播</title>
+	<link href="css/index.css" rel="stylesheet" type="text/css">
+	<style>
+	body{height: 100%; overflow: hidden;}
+	#livePlayer{ position: absolute; left: 0 ;top: 0; width: 100%; height:184px;  overflow: hidden;text-align: center;}
+	#livePlayer video{ width: 1px; height: 1px;}
+	#livePlayer img{ width: 40px; height: 40px; display: block; margin: 72px auto;}
+	</style>
+</head>
+<body>
+	 <div id="livePlayer">
+		<img src="images/play.png">
+	 	<video id="livevideo" controls width="1px" height="1px" src="https://v.qq.com/iframe/player.html?vid=v035374u8u4&tiny=0&auto=0" x-webkit-airplay="true" webkit-playsinline="true"></video>
+	 </div>
+	 <script type="text/javascript" src="js/zepto.min.js"></script>
+    <script type="text/javascript">
+   		var video=document.getElementById("livevideo");
+   		$("#livePlayer img").on("tap",function(){
+   			$(this).hide();
+   			video.style.width='100%';
+   			video.style.height='100%';
+   			if(video.paused){
+   				video.play();
+   			}else{
+   				video.pause();
+   				$(this).show();
+   			}
+   		})
+    </script>
+</body>
+</html>

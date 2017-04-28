@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>es5新增数组方法</title>
+</head>
+<body>
+	<script type="text/javascript">
+	//新增数组方法：forEach().map().filter().some().every().indexOf().lastIndexOf().reduce().reduceRight()
+		var arr=[0,2,3,4];
+		//一、forEach是Array新方法中最基本的一个，就是遍历，循环
+		arr.forEach(console.log);//// 结果：
+		// 1, 0, [1, 2, 3, 4]
+		// 2, 1, [1, 2, 3, 4]
+		// 3, 2, [1, 2, 3, 4]
+		// 4, 3, [1, 2, 3, 4]
+		// forEach方法中的function回调支持3个参数，第1个是遍历的数组内容；第2个是对应的数组索引，第3个是数组本身
+		//等同于
+		for(var i=0;i<arr.length;i++){
+			console.log(arr[i]);
+		}
+		//利用forEach求和
+		var sum=0;
+		arr.forEach(function(item,index,array){
+			console.log(array[index]==item);//true
+			sum+=item;
+		});
+		console.log(sum);//10
+		//forEach除了接受一个必须的回调函数参数，还可以接受一个可选的上下文参数（改变回调函数里面的this指向）（第2个参数）array.forEach(callback,[ thisObject])
+		var database={
+			users:['小张','小王','小李'],
+			sendmail:function(user){
+				if(this.isValidUser(user)){//this
+					console.log("你好，"+user);
+				}else{
+					console.log("抱歉，"+user+',你不是本家人');
+				}
+			},
+			isValidUser:function(user){
+				return /张$/.test(user);
+			}
+		}
+		database.users.forEach(//database.users中人遍历
+			database.sendmail,//发送邮件
+			database // 使用database代替上面标红的this
+		);
+		//你好，小张
+		//抱歉，小王,你不是本家人
+		//抱歉，小李,你不是本家人
+		//
+		//
+		//
+		//二、map“映射”。[].map(); 基本用法跟forEach方法类似array.map(callback,[ thisObject]);
+		var arrofSquares=arr.map(function(item){
+			return item*item;
+		})
+		console.log(arrofSquares);//[1,4,9,16]
+		//callback需要有return值，如果没有，数组所有项都被映射成了undefined
+		//在实际使用的时候，我们可以利用map方法方便获得对象数组中的特定属性值们
+		var users = [
+		  {name: "张含韵", "email": "zhang@email.com"},
+		  {name: "江一燕",   "email": "jiang@email.com"},
+		  {name: "李小璐",  "email": "li@email.com"}
+		];
+
+		var emails=users.map(function(user){ return user.email});
+
+		console.log(emails.join(", ")); // zhang@email.com, jiang@email.com, li@email.com
+		//三、filter为“过滤”、“筛选”之意。指数组filter后，返回过滤后的新数组。用法跟map极为相似
+		//array.filter(callback,[ thisObject]);filter的callback函数需要返回布尔值true或false
+		var arrFilter=arr.filter(function(item){
+			return item;
+		});
+		console.log(arrFilter);//[2,3,4]返回值只要是弱等于== true/false就可以了，而非非得返回 === true/false.
+		var emailzhang=users.map(function(user){ return user.email; }).filter(function(email){return /^zhang/.test(email);});
+		console.log(emailzhang.join(', '));//zhang@email.com
+		//四.some意指“某些”，指是否“某些项”合乎条件。与下面的every算是好基友，every表示是否“每一项”都要靠谱
+		//array.some(callback,[ thisObject]);
+		var current=1;
+		function higherThanCurrent(arr){
+			return arr>current;
+		}
+		if(arr.some(higherThanCurrent)){
+			console.log("tongguo");//tongguo,some要求至少有1个值让callback返回true就可以了,我们自然可以使用forEach进行判断，不过，相比some, 不足在于，some只有有true即返回不再执行了
+		}
+		//五、every,跟some的基友关系已经是公开的秘密了，同样是返回Boolean值，不过，every需要每一个妃子都要让朕满意，否则——“来人，给我拖出去砍了！”
+		if(arr.every(higherThanCurrent)){
+			console.log("tongguo");
+		}else{
+			console.log("不通过");
+		}//不通过
+		//六、indexOf方法在字符串中自古就有，string.indexOf(searchString, position)。数组这里的indexOf方法与之类似。返回整数索引值，如果没有匹配（严格匹配），返回-1. fromIndex可选，表示从这个位置开始搜索，若缺省或格式不合要求，使用默认值0
+		//array.indexOf(searchElement[, fromIndex])
+		console.log(arr.indexOf(2, "x")); // 1 ("x"被忽略)
+		console.log(arr.indexOf(4, "3")); // 3 (从3号位开始搜索)
+		console.log(arr.indexOf(2, "3")); // -1 (从3号位开始搜索)
+		console.log(arr.indexOf(4)); // 3 (未找到)
+		console.log(arr.indexOf("3")); // -1 (未找到，因为3 !== "3")
+		//七、lastIndexOf方法与indexOf方法类似：只是lastIndexOf是从字符串的末尾开始查找，而不是从开头。还有一个不同就是fromIndex的默认值是array.length - 1而不是0
+		//array.lastIndexOf(searchElement[, fromIndex])
+		console.log(arr.lastIndexOf(2)); // 1
+		console.log(arr.lastIndexOf(0, 3)); // 0 (从后往前，索引值小于3的开始搜索)
+
+		console.log(arr.lastIndexOf(5)); // -1 (未找到)
+		//八、reduce是JavaScript 1.8中才引入的，中文意思为“减少”、“约简”。反而更接近于“迭代”、“递归(recursion)”
+		//array.reduce(callback[, initialValue])callback函数接受4个参数：之前值、当前值、索引值以及数组本身
+		var sum = arr.reduce(function (previous, current, index, array) {
+		  return previous + current;
+		});
+		console.log(sum);//9
+		//有了reduce，我们可以轻松实现二维数组的扁平化：
+		var matrix = [
+		  [1, 2],
+		  [3, 4],
+		  [5, 6]
+		];
+		//二维数组扁平化
+		var flatten=matrix.reduce(function(previous, current){
+			return previous.concat(current);
+		})
+		console.log(flatten);//[1,2,3,4,5,6]
+		//九、reduceRight跟reduce相比，用法类似：实现上差异在于reduceRight是从数组的末尾开始实现
+		//array.reduceRight(callback[, initialValue])
+		var specialDiff = arr.reduceRight(function (previous, current, index) {
+			if(index==0){
+				return previous+current;
+			}
+			return previous-current;
+		});
+		console.log(specialDiff);//-1
+	</script>
+</body>
+</html>

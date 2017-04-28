@@ -1,0 +1,36 @@
+{
+  "name": "generator-koa",
+  "version": "0.2.0",
+  "description": "A Koa generator for Yeoman",
+  "license": "MIT",
+  "keywords": [
+    "yeoman-generator",
+    "koa"
+  ],
+  "homepage": "https://github.com/peter-vilja/generator-koa",
+  "bugs": "https://github.com/peter-vilja/generator-koa/issues",
+  "author": {
+    "name": "Peter Vilja",
+    "email": "",
+    "url": "https://github.com/peter-vilja"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/peter-vilja/generator-koa.git"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "yeoman-generator": "^0.22.5"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "yeoman-assert": "^2.1.1",
+    "yeoman-test": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=5.0.0"
+  }
+}

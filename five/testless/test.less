@@ -1,0 +1,68 @@
+/*编译 lessc test.less > ok.css*/
+@color:#4d926f;
+#header{
+	color:@color;
+}
+.test{
+	color:@color;
+}
+/*继承*/
+.rounder(@radius:5px){
+	border-radius:@radius;
+}
+.header{
+	.rounder;
+}
+.footer{
+	.rounder(10px);
+}
+div{ width:100px; height:100px; background:red;}
+/*嵌套*/
+p{
+	font-size:12px;
+	a{ text-align:center}
+}
+/*计算*/
+@the-border: 1px;
+@base-color: #111;
+@red:        #842210;
+
+#header {
+    color: (@base-color * 3);
+    border-left: @the-border;
+    border-right: (@the-border * 2);
+}
+#footer {
+    color: (@base-color + #003300);
+    border-color: desaturate(@red, 10%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

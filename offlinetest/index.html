@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<style type="text/css">
+      .zan_btn{
+      	width: 200px; height:200px; background: gray;
+      }
+	</style>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+	<div class="zan_btn" id="test"></div>
+	<script type="text/javascript">
+		function throllre(fn,wait){
+			var timer;
+			return function(...args){
+				if(!timer){
+					timer=setTimeout(()=>timer=null, wait);
+					return fn.apply(this,args);
+				}
+			}
+		}
+		$("#test").click(throllre(function(){
+			console.log('ok');
+		},500));
+	</script>
+</body>
+</html>

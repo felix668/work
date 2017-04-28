@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function Queue(){
+			this.dataStore=[];
+			this.enqueue=enqueue;//向队尾增加一个元素
+			this.dequeue=dequeue;//删除对首元素
+			this.front=front;//读取对首元素
+			this.back=back;//读取队尾元素
+			this.empty=empty;//队列是否为空
+			this.tostring=tostring;
+		}
+		function enqueue(element){
+			this.dataStore.push(element);
+		}
+		function dequeue(){
+			return this.dataStore.shift();
+		}
+		function front(){
+			return this.dataStore[0];
+			
+		}
+		function back(){
+			return this.dataStore[this.dataStore.length-1];
+		}
+		function empty(){
+			if(this.dataStore.length==0){
+				return true
+			}else{
+				return false
+			}
+		}
+		function tostring(){
+			var restr='';
+			for(var i=0;i<this.dataStore.length;i++){
+				restr+=this.dataStore[i]+"\n";
+			}
+			return restr
+		}
+		// var que=new Queue();
+		// que.enqueue("小王");
+		// que.enqueue("小红");
+		// que.enqueue("小张");
+		// console.log(que.tostring());
+		// que.dequeue();
+		// console.log("/*******************/");
+		// console.log(que.tostring());
+		// console.log("/*******************/");
+		// console.log(que.front());
+		// que.enqueue("小绿");
+		// console.log("/*******************/");
+		// console.log(que.tostring());
+		// console.log("/*******************/");
+		// console.log(que.back());
+		// console.log(que.empty());
+		function par(name,code){
+			this.name=name;
+			this.code=code;
+		}
+		function dequeue(){
+			var prio=0;
+			for(var i=0;i<this.dataStore.length;i++){
+				if(this.dataStore[i].code>this.dataStore[prio].code){
+					prio=i;
+				}
+			}
+			return this.dataStore.splice(prio,1);
+		}
+		var p1=new par("aa",1);
+		var p2=new par("bb",5);
+		var p3=new par('cc',2);
+		var p4=new par('dd',3);
+		var qq=new Queue();
+		qq.enqueue(p1);
+		qq.enqueue(p2);
+		qq.enqueue(p3);
+		qq.enqueue(p4);
+		console.log(qq.dequeue());
+		console.log(qq.tostring());
+
+
+
+	</script>
+</body>
+</html>

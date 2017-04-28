@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="js/index.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form action="getdata">
+    	<label for="username">用户名</label>
+    	<input type="text" name="username" id="username" placeholder="请输入用户名"/>
+    	<input type="submit" id="btnsubmit" value="提交">
+    </form>
+{% endblock %}

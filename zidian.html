@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>字典</title>
+</head>
+<body>
+	<script type="text/javascript">
+ 		function pictionary(){
+ 			this.dataStore=new Array();
+ 			this.add=add;
+ 			this.remove=remove;
+ 			this.find=find;
+ 			this.count=count;
+ 			this.clear=clear;
+ 			this.showall=showall;
+ 		}
+ 		function add(key,value){
+ 			this.dataStore[key]=value;
+ 		}
+ 		function remove(key){
+ 			delete this.dataStore[key];
+ 		}
+ 		function find(key){
+ 			return this.dataStore[key];
+ 		}
+ 		function count(){
+ 			return Object.keys(this.dataStore).length;
+ 		}
+ 		function clear(){
+ 			var datakeys=Object.keys(this.dataStore);
+ 			for(var keys in datakeys){
+ 				delete this.dataStore[dataskeys[keys]];
+ 			}
+ 		}
+ 		function showall(){
+ 			var datakeys=Object.keys(this.dataStore);
+ 			for( var keys in datakeys){
+ 				console.log( datakeys[keys]+"-->"+this.dataStore[datakeys[keys]]);
+ 			}
+ 		}
+ 		var pot=new pictionary();
+ 		pot.add("aa",333);
+ 		pot.add("bb",666);
+ 		pot.add("cc",444);
+ 		pot.add("dd",222);
+ 		pot.showall();
+	</script>
+</body>
+</html>
